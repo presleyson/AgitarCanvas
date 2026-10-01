@@ -1,0 +1,42 @@
+# Equivalente a "npm run deploy", executado no GitHub.
+# Instala, testa, gera a build e publica o resultado na branch gh-pages,
+# que é a origem do site em https://presleyson.github.io/AgitarCanvas/
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm test -- --watchAll=false
+
+      - run: npm run build
+
+      - name: Publica na branch gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx gh-pages -d build \
+            -m "Deploy ${GITHUB_SHA::7}" \
+            -u "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+            -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
