@@ -1,38 +1,26 @@
 // Bibliotecas
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Estilos e Funções
 import './style.css';
 
 export default function PostIt({ text, open, deletePostIt }) {
   const [isMouseOver, setIsMouseOver] = useState(false);
-  const [message, setMessage] = useState(text);
-
-  useEffect(() => {
-    setMessage(text);
-  }, [text]);
 
   return (
-    <div id="postIt-main-container">
-      <div
-        id='postIt-container'
-        onClick={open}
-        onMouseEnter={() => {
-          setIsMouseOver(true);
-          setMessage('Editar');
-        }}
-        onMouseLeave={() => {
-          setIsMouseOver(false);
-          setMessage(text);
-        }}
-      >
-        <p id='postIt-content'>{message}</p>
-      </div>
+    <div
+      className="postIt-main-container"
+      onMouseEnter={() => setIsMouseOver(true)}
+      onMouseLeave={() => setIsMouseOver(false)}
+    >
+      <button type="button" className='postIt-container' onClick={open} title="Editar">
+        <p className='postIt-content'>{isMouseOver ? 'Editar' : text}</p>
+      </button>
       <button
-        id='btn-delete-postIt'
-        className={isMouseOver ? 'visible' : 'hidden'} // Adicionei classes para controle de visibilidade
-        onMouseEnter={() => setIsMouseOver(true)}
-        onMouseLeave={() => setIsMouseOver(false)}
+        type="button"
+        className={`btn-delete-postIt ${isMouseOver ? 'visible' : 'hidden'}`}
         onClick={deletePostIt}
+        onFocus={() => setIsMouseOver(true)}
+        onBlur={() => setIsMouseOver(false)}
       >
         Apagar
       </button>
