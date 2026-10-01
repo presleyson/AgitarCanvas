@@ -38,5 +38,5 @@ jobs:
         run: |
           npx gh-pages -d build \
             -m "Deploy ${GITHUB_SHA::7}" \
-            -u "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>" \
+            -u "github-actions <github-actions@users.noreply.github.com>" \
             -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
