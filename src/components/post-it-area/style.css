@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-#canva-container-bottom div .postIt-area {
+#canva-container-bottom .postIt-area {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

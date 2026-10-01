@@ -1,8 +1,10 @@
-#postIt-main-container {
+.postIt-main-container {
   width: 80%;
 }
 
-#postIt-container {
+.postIt-container {
+  font: inherit;
+  color: inherit;
   width: 100%;
   background-color: var(--postit-color);
   border: 1.5px solid var(--black);
@@ -16,15 +18,16 @@
   /* Adiciona transição suave para a mudança de cor de fundo */
 }
 
-#postIt-container:hover {
+.postIt-container:hover,
+.postIt-container:focus-visible {
   background-color: var(--postit-hover);
 }
 
-#postIt-content {
+.postIt-content {
   font-size: 12px;
 }
 
-#btn-delete-postIt {
+.btn-delete-postIt {
   margin-bottom: 1%;
   border-radius: 0;
   border: 1px solid var(--black);
@@ -37,19 +40,20 @@
   /* Adiciona transição suave para a mudança de opacidade */
 }
 
-#btn-delete-postIt.visible {
+.btn-delete-postIt.visible,
+.btn-delete-postIt:focus-visible {
   opacity: 1;
 }
 
-#btn-delete-postIt.hidden {
+.btn-delete-postIt.hidden {
   opacity: 0;
 }
 
-#btn-delete-postIt:hover {
+.btn-delete-postIt:hover {
   background-color: var(--dark-red);
   cursor: pointer;
 }
 
-#canva-container-bottom div div #postIt-main-container {
+#canva-container-bottom .postIt-main-container {
   width: 27%;
 }

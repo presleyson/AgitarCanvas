@@ -64,4 +64,14 @@
 
 #icon-moldalAddPostIt {
   cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+}
+
+.erro-modalAddPostIt {
+  color: var(--dark-red);
+  font-size: 13px;
+  font-weight: 700;
+  width: 100%;
 }

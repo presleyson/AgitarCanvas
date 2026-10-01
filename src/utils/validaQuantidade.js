@@ -1,24 +1,16 @@
+import { limits } from './strings';
+
+// Retorna uma mensagem de erro quando a seção já atingiu o limite de post-its, ou null quando é possível salvar.
+// Na edição, o post-it só conta contra o limite se estiver sendo movido para outra seção.
 export default function validaQuantidade(title, postIts, editId) {
-  // Define os limites para cada título
-  const limites = {
-    'Recursos Técnicos': 5,
-    'Principais Parceiros': 5,
-    'Recursos Financeiros': 5,
-    'Idéias Selecionadas': 5,
-    'Geração de ideias': 5,
-    'Mercado': 2,
-    'Problema': 2,
-    'Resultados': 6,
-    'Planejamento Estratégico': 6,
-  };
+  const limite = limits[title];
+  if (limite === undefined) return null;
 
-  // Verifica se o post-it sendo editado já existe
-  const postItBeingEdited = postIts.find(postIt => postIt.id === editId);
+  const ocupados = postIts.filter(item => item.title === title && item.id !== editId).length;
 
-  if (!postItBeingEdited && title in limites && postIts.filter(item => item.title === title).length >= limites[title]) {
-    alert(`Você atingiu o limite de ${limites[title]} post-its em "${title}".`);
-    return true;
+  if (ocupados >= limite) {
+    return `Você atingiu o limite de ${limite} post-its em "${title}".`;
   }
 
-  return false;
+  return null;
 }

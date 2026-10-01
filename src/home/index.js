@@ -1,17 +1,14 @@
 // Bibliotecas
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import * as uuid from 'uuid';
 // Componentes
 import PostItArea from '../components/post-it-area';
-import CanvaArea from '../components/canva-left';
-import CanvaRight from '../components/canva-right';
-import CanvaBottom from '../components/canva-bottom';
+import CanvaArea from '../components/canva-area';
 import ModalAddPostIt from '../components/modal';
 import PopUp from '../components/pop-up';
 // Estilos e Funções
-import { initialTexts, leftTopArea, rightTopArea, bottomArea } from '../utils/strings';
+import { sectionsByArea, sectionTitles } from '../utils/strings';
 import validaQuantidade from '../utils/validaQuantidade';
-import atualizaDisplay from '../utils/atualizaDisplay';
 import './style.css';
 
 
@@ -24,31 +21,44 @@ export default function Home() {
   const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
   const [postToDeleteId, setPostToDeleteId] = useState(null);
 
-  function addPostIt(title, text) {
-    // Verifica se o post-it sendo editado já existe
-    const postItExists = postIts.some(postIt => postIt.id === editId);
+  // Salva (cria ou edita) um post-it. Retorna uma mensagem de erro ou null em caso de sucesso.
+  function savePostIt(title, text) {
+    const texto = (text || '').trim();
 
-    if (!validaQuantidade(title, postIts, editId) || postItExists) {
-      if (editId !== null) {
-        const updatedPostIts = postIts.map(postIt =>
-          postIt.id === editId ? { ...postIt, title, text } : postIt
-        );
-        setPostIts(updatedPostIts);
-        setEditId(null);
-      } else {
-        setPostIts([...postIts, { id: uuid.v4(), title, text }]);
-      }
-      setTitle('');
-      setDescription('');
+    if (!sectionTitles.includes(title)) {
+      return 'Selecione uma seção.';
     }
+    if (texto === '') {
+      return 'Preencha a descrição.';
+    }
+
+    const editando = editId !== null && postIts.some(postIt => postIt.id === editId);
+    const erroLimite = validaQuantidade(title, postIts, editando ? editId : null);
+    if (erroLimite) {
+      return erroLimite;
+    }
+
+    if (editando) {
+      setPostIts(postIts.map(postIt =>
+        postIt.id === editId ? { ...postIt, title, text: texto } : postIt
+      ));
+    } else {
+      setPostIts([...postIts, { id: uuid.v4(), title, text: texto }]);
+    }
+    return null;
   }
 
+  function resetForm() {
+    setTitle('');
+    setDescription('');
+    setEditId(null);
+  }
 
   function editModal(title, text, id) {
-    setOpen(true);
     setTitle(title);
     setDescription(text);
     setEditId(id);
+    setOpen(true);
   }
 
   function deletePostIt(id) {
@@ -57,27 +67,33 @@ export default function Home() {
   }
 
   function confirmDelete() {
-    const idToDelete = postToDeleteId;
-    const updatedPostIts = postIts.filter((postIt) => postIt.id !== idToDelete);
-    setPostIts(updatedPostIts);
+    setPostIts(postIts.filter((postIt) => postIt.id !== postToDeleteId));
+    setPostToDeleteId(null);
+    setDeleteConfirmationOpen(false);
+  }
 
+  function cancelDelete() {
     setPostToDeleteId(null);
     setDeleteConfirmationOpen(false);
   }
 
   function openModal() {
+    resetForm();
     setOpen(true);
-    setTitle('');
-    setDescription('');
   }
 
   function closeModal() {
     setOpen(false);
+    resetForm();
   }
 
-  useEffect(() => {
-    atualizaDisplay(postIts);
-  }, [postIts]);
+  function renderArea(section) {
+    return (
+      <CanvaArea key={section.slug} postIts={postIts} section={section}>
+        <PostItArea postIts={postIts} editModal={editModal} deletePostIt={deletePostIt} title={section.title} />
+      </CanvaArea>
+    );
+  }
 
   return (
     <>
@@ -85,7 +101,7 @@ export default function Home() {
         <ModalAddPostIt
           open={open}
           close={closeModal}
-          setArray={addPostIt}
+          save={savePostIt}
           title={title}
           description={description}
           editId={editId}
@@ -95,7 +111,7 @@ export default function Home() {
         <PopUp
           open={deleteConfirmationOpen}
           message="Tem certeza de que deseja excluir este post-it?"
-          close={() => setDeleteConfirmationOpen(false)}
+          close={cancelDelete}
           confirm="Confirmar"
           cancel="Cancelar"
           confirmFnct={confirmDelete}
@@ -104,33 +120,15 @@ export default function Home() {
 
       <div id='canva-container-main'>
         <div id='canva-container-top'>
-          {leftTopArea.titles.map((title, index) => {
-            return (
-              <CanvaArea postIts={postIts} title={title} initialTexts={initialTexts} id={leftTopArea.id[index]}>
-                <PostItArea postIts={postIts} editModal={editModal} deletePostIt={deletePostIt} title={title} />
-              </CanvaArea>
-            );
-          })}
+          {sectionsByArea('left').map(renderArea)}
           <div id='canva-container-right'>
-            {rightTopArea.titles.map((title, index) => {
-              return (
-                <CanvaRight postIts={postIts} title={title} initialTexts={initialTexts} id={rightTopArea.id[index]}>
-                  <PostItArea postIts={postIts} editModal={editModal} deletePostIt={deletePostIt} title={title} />
-                </CanvaRight>
-              );
-            })}
+            {sectionsByArea('right').map(renderArea)}
           </div>
         </div>
         <div id='canva-container-bottom'>
-          {bottomArea.titles.map((title, index) => {
-            return (
-              <CanvaBottom postIts={postIts} title={title} initialTexts={initialTexts} id={bottomArea.id[index]}>
-                <PostItArea postIts={postIts} editModal={editModal} deletePostIt={deletePostIt} title={title} />
-              </CanvaBottom>
-            );
-          })}
+          {sectionsByArea('bottom').map(renderArea)}
         </div>
-        <button id='button-canva' onClick={e => openModal()}>Adicionar Post-it</button>
+        <button id='button-canva' onClick={openModal}>Adicionar Post-it</button>
       </div>
     </>
   );
