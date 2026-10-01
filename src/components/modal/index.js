@@ -1,69 +1,55 @@
 // Bibliotecas
-import { Dialog, DialogContent } from '@radix-ui/react-dialog'
+import { Dialog, DialogContent, DialogTitle } from '@radix-ui/react-dialog'
 import { RxCross1 } from 'react-icons/rx';
 import { useState } from 'react'
 // Componentes
 import PopUp from '../pop-up';
+import { sectionTitles } from '../../utils/strings';
 import './style.css'
 
-export default function ModalAddPostIt({ open, close, setArray, title, description, editId }) {
+const options = [{ value: '', label: 'Selecione...' }, ...sectionTitles.map(t => ({ value: t, label: t }))];
+
+export default function ModalAddPostIt({ open, close, save, title, description, editId }) {
   const [form, setForm] = useState({
     title: title || '',
     description: description || '',
-    options: [
-      { value: '', label: '' },
-      { value: 'Mercado', label: 'Mercado' },
-      { value: 'Problema', label: 'Problema' },
-      { value: 'Geração de ideias', label: 'Geração de idéias' },
-      { value: 'Ideias Selecionadas', label: 'Idéias Selecionadas' },
-      { value: 'Recursos Financeiros', label: 'Recursos Financeiros' },
-      { value: 'Recursos Técnicos', label: 'Recursos Técnicos' },
-      { value: 'Principais Parceiros', label: 'Principais Parceiros' },
-      { value: 'Resultados', label: 'Resultados' },
-      { value: 'Planejamento Estratégico', label: 'Planejamento Estratégico' },
-    ],
   });
+  const [error, setError] = useState('');
   const [editConfirmationOpen, setEditConfirmationOpen] = useState(false);
 
-  const onChangeTitle = (event) => {
-    setForm({
-      ...form,
-      title: event.target.value,
-    });
-  }
+  const onChange = (field) => (event) => {
+    setForm({ ...form, [field]: event.target.value });
+    setError('');
+  };
 
-  const onChangeDescription = (event) => {
-    setForm({
-      ...form,
-      description: event.target.value,
-    });
-  }
+  // Tenta salvar; em caso de erro, mantém o modal aberto com o texto digitado.
+  const trySave = () => {
+    const erro = save(form.title, form.description);
+    if (erro) {
+      setError(erro);
+      return;
+    }
+    close();
+  };
 
   const sendForm = (event) => {
     event.preventDefault();
+    if (!event.currentTarget.reportValidity()) return;
 
     if (editId !== null) {
       setEditConfirmationOpen(true);
     } else {
-      setArray(form.title, form.description);
-      close();
-      setForm({ description: '', title: '' });
+      trySave();
     }
   };
 
   const confirmEdit = () => {
-    if (editId !== null) {
-      setArray(form.title, form.description);
-      close();
-      setForm({ description: '', title: '' });
-      setEditConfirmationOpen(false);
-    }
+    setEditConfirmationOpen(false);
+    trySave();
   };
 
-
-
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={(aberto) => { if (!aberto) close(); }}>
       {editConfirmationOpen && (
         <PopUp
           open={editConfirmationOpen}
@@ -75,24 +61,26 @@ export default function ModalAddPostIt({ open, close, setArray, title, descripti
         />
       )}
 
-      <DialogContent>
+      <DialogContent aria-describedby={undefined}>
         <div id='background-moldalAddPostIt'>
           <div id='container-moldalAddPostIt'>
             <div id="container-icon-moldalAddPostIt">
-              <span id="icon-moldalAddPostIt" onClick={close}>
+              <button type="button" id="icon-moldalAddPostIt" onClick={close} aria-label="Fechar">
                 <RxCross1 />
-              </span>
+              </button>
             </div>
-            <form id='form-modalAddPostIt'>
+            <DialogTitle className='sr-only'>{editId !== null ? 'Editar post-it' : 'Adicionar post-it'}</DialogTitle>
+            <form id='form-modalAddPostIt' onSubmit={sendForm}>
               <div className='div-content-moldalAddPostIt'>
-                <label htmlFor="title">Seção</label>
+                <label htmlFor="select-modalAddPostIt">Seção</label>
                 <select
+                  id="select-modalAddPostIt"
                   name="title"
                   required
                   value={form.title}
-                  onChange={onChangeTitle}
+                  onChange={onChange('title')}
                 >
-                  {form.options.map((option) => (
+                  {options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
@@ -100,16 +88,17 @@ export default function ModalAddPostIt({ open, close, setArray, title, descripti
                 </select>
               </div>
               <div className='div-content-moldalAddPostIt'>
-                <label htmlFor="description">Descrição</label>
+                <label htmlFor="textarea-modalAddPostIt">Descrição</label>
                 <textarea
                   name="description"
                   required
                   id='textarea-modalAddPostIt'
                   value={form.description}
-                  onChange={onChangeDescription}
+                  onChange={onChange('description')}
                 />
               </div>
-              <button onClick={sendForm} id='btn-modalAddPostIt'>Salvar</button>
+              {error && <p role="alert" className='erro-modalAddPostIt'>{error}</p>}
+              <button type="submit" id='btn-modalAddPostIt'>Salvar</button>
             </form>
           </div>
         </div>
