@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: "Lima"
     given-names: "Presleyson Plínio de"
-repository-code: "https://github.com/presleyson/AgitarCanvas"
-url: "https://presleyson.github.io/AgitarCanvas/"
+repository-code: "https://github.com/presleyson/agitarcanvas"
+url: "https://presleyson.github.io/agitarcanvas/"
 preferred-citation:
   type: thesis
   title: "Modelo de gestão da inovação tecnológica para pequenas e médias empresas de tecnologia da informação e comunicação"

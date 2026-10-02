@@ -2,7 +2,7 @@
 #
 # Etapas: instalação, verificação de tipos, testes unitários, build e
 # publicação do diretório "build" na branch gh-pages, que é a origem do site
-# em https://presleyson.github.io/AgitarCanvas/
+# em https://presleyson.github.io/agitarcanvas/
 #
 # Configuração do servidor (opcional): defina em Settings > Secrets and
 # variables > Actions > Variables as variáveis VITE_SUPABASE_URL e

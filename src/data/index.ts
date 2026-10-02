@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { appBaseUrl } from '@/lib/baseUrl';
 import { LocalRepository } from './local/LocalRepository';
 import type { Repository } from './repository';
 import { SupabaseRepository } from './supabase/SupabaseRepository';
@@ -44,7 +45,7 @@ export function createRepository(): Repository {
         detectSessionInUrl: true,
       },
     });
-    const redirectUrl = new URL(import.meta.env.BASE_URL, window.location.origin).toString();
+    const redirectUrl = appBaseUrl();
     return new SupabaseRepository(client, redirectUrl);
   }
 

@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.0.0",
   "description": "Plataforma de gestão da inovação tecnológica baseada no modelo AGITAR Canvas",
-  "homepage": "https://presleyson.github.io/AgitarCanvas/",
+  "homepage": "https://presleyson.github.io/agitarcanvas/",
   "type": "module",
   "engines": {
     "node": ">=22"

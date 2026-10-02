@@ -4,7 +4,7 @@ Implementação digital do **Modelo de Gestão da Inovação Tecnológica (AGITA
 
 **Título da tese:** Modelo de Gestão da Inovação Tecnológica para Pequenas e Médias Empresas de Tecnologia da Informação e Comunicação.
 
-**Aplicação publicada:** <https://presleyson.github.io/AgitarCanvas/>
+**Aplicação publicada:** <https://presleyson.github.io/agitarcanvas/>
 
 ## Sumário
 
@@ -204,7 +204,7 @@ O software não impõe ordem de preenchimento. A tese (seção 6.3) descreve o u
 
 ### 1. Acessar a plataforma
 
-Abra <https://presleyson.github.io/AgitarCanvas/> em um navegador de computador, tablet ou celular. Não há instalação.
+Abra <https://presleyson.github.io/agitarcanvas/> em um navegador de computador, tablet ou celular. Não há instalação.
 
 - **Modo nuvem** (servidor configurado): entre com uma conta Google. Os projetos ficam guardados no servidor e acompanham o usuário em qualquer dispositivo.
 - **Modo local** (sem servidor configurado): não há login, e os projetos ficam guardados apenas no navegador em uso.
@@ -430,8 +430,8 @@ Ao imprimir o canvas A3, selecione papel A3 e orientação paisagem no diálogo 
 **Passos**
 
 ```bash
-git clone https://github.com/presleyson/AgitarCanvas.git
-cd AgitarCanvas
+git clone https://github.com/presleyson/agitarcanvas.git
+cd agitarcanvas
 npm install
 ```
 
@@ -460,7 +460,7 @@ Não execute `supabase/tests/00_supabase_stub.sql`: ele existe apenas para os te
 1. No Google Cloud Console, crie uma credencial **OAuth 2.0 Client ID** do tipo aplicação web. Em *Authorized redirect URIs*, informe `https://<referência-do-projeto>.supabase.co/auth/v1/callback`.
 2. No Supabase, em **Authentication > Sign In / Providers > Google**, ative o provedor e informe o Client ID e o Client Secret.
 3. Em **Authentication > URL Configuration**:
-   - *Site URL:* `https://presleyson.github.io/AgitarCanvas/`
+   - *Site URL:* `https://presleyson.github.io/agitarcanvas/`
    - *Redirect URLs:* acrescente o mesmo endereço e, para desenvolvimento, `http://localhost:5173/`
 4. Ainda em **Authentication > Sign In / Providers**, mantenha desativados os provedores que a aplicação não usa, em especial o acesso anônimo e o cadastro por email e senha. Convites e permissões se apoiam no email confirmado pelo Google.
 
@@ -474,7 +474,7 @@ Em **Project Settings > API**, copie a *Project URL* e a chave pública *anon*. 
 | --- | --- |
 | `VITE_SUPABASE_URL` | URL do projeto Supabase |
 | `VITE_SUPABASE_ANON_KEY` | Chave pública `anon` |
-| `VITE_BASE` | Caminho base da publicação. Padrão: `/AgitarCanvas/` em produção e `/` em desenvolvimento |
+| `VITE_BASE` | Caminho base da publicação. Opcional. Padrão: `./` (relativo) em produção e `/` em desenvolvimento |
 
 - **Desenvolvimento:** copie `.env.example` para `.env.local` e preencha.
 - **Produção:** no GitHub, em **Settings > Secrets and variables > Actions > Variables**, crie `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`. O próximo deploy passa a usar o servidor.
@@ -596,7 +596,7 @@ Publicação manual, a partir de uma cópia local com permissão de escrita no r
 npm run deploy
 ```
 
-Para publicar em outro endereço, defina `VITE_BASE` com o caminho base e ajuste a *Site URL* no Supabase.
+A versão compilada usa caminho base relativo e funciona em qualquer endereço de publicação sem nova compilação. Ao publicar em outro endereço, ajuste a *Site URL* e as *Redirect URLs* no Supabase. Defina `VITE_BASE` apenas se for necessário fixar um caminho base absoluto.
 
 ## Boas práticas de desenvolvimento
 

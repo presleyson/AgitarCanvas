@@ -1,7 +1,8 @@
+import { appBaseUrl } from '@/lib/baseUrl';
+
 /** Endereço público de uma rota interna, considerando o caminho base da publicação. */
 export function appUrl(route: string): string {
-  const base = new URL(import.meta.env.BASE_URL, window.location.origin).toString();
-  return `${base}#${route}`;
+  return `${appBaseUrl()}#${route}`;
 }
 
 export function projectUrl(projectId: string): string {
