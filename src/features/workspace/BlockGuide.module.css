@@ -1,0 +1,38 @@
+.guide {
+  color: var(--gray-700);
+  font-size: var(--text-md);
+  line-height: 1.6;
+}
+
+.meta {
+  margin-bottom: var(--space-2);
+  color: var(--text-subtle);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.questionsTitle {
+  margin-top: var(--space-4);
+  color: var(--text-subtle);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.questions {
+  margin: var(--space-2) 0 0;
+  padding-left: var(--space-5);
+}
+
+.questions li + li {
+  margin-top: var(--space-2);
+}
+
+.questions cite {
+  color: var(--text-subtle);
+  font-style: normal;
+  white-space: nowrap;
+}
