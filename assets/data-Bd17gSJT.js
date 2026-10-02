@@ -1,0 +1,2 @@
+import{a as e}from"./index-D4LuAcDY.js";function t(t){let n=Object.fromEntries(e.map(e=>[e.id,[]]));for(let e of t)e.content.trim()&&n[e.block]?.push(e);return n}export{t};
+//# sourceMappingURL=data-Bd17gSJT.js.map
