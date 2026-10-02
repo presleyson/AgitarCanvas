@@ -1,0 +1,72 @@
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  padding: 5px var(--space-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition:
+    border-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+}
+
+.box:focus-within {
+  border-color: var(--primary-500);
+  box-shadow: var(--focus-ring);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  max-width: 100%;
+  padding: 3px 4px 3px var(--space-2);
+  border-radius: var(--radius-full);
+  background: var(--primary-100);
+  color: var(--primary-700);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+}
+
+.remove:hover {
+  background: var(--primary-200);
+}
+
+.input {
+  flex: 1;
+  min-width: 120px;
+  padding: var(--space-1);
+  border: 0;
+  background: transparent;
+  font-size: var(--text-base);
+}
+
+@media (min-width: 768px) {
+  .input {
+    font-size: var(--text-md);
+  }
+}
+
+.input:focus-visible {
+  box-shadow: none;
+}
+
+.input::placeholder {
+  color: var(--gray-400);
+}
