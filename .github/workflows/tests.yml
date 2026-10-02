@@ -1,0 +1,92 @@
+# Verificação completa: regras de acesso do banco, repositório do modo nuvem
+# contra uma API real e testes de ponta a ponta em navegador.
+#
+# Roda em pull requests e em alterações na main. É independente do deploy:
+# uma falha aqui não impede a publicação, mas deve ser investigada.
+name: Testes
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: testes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  banco:
+    name: Banco de dados e API
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Regras de acesso (RLS), gatilhos e funções
+        run: npm run test:db
+
+      - name: Instala o PostgREST
+        run: |
+          curl -sSL https://github.com/PostgREST/postgrest/releases/download/v12.2.3/postgrest-v12.2.3-linux-static-x64.tar.xz | tar -xJ
+          sudo mv postgrest /usr/local/bin/postgrest
+
+      - name: Repositório do modo nuvem contra a API
+        run: npm run test:api
+
+  navegador:
+    name: Ponta a ponta (${{ matrix.navegador }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - navegador: chromium
+            comando: npm run test:e2e
+          - navegador: webkit
+            comando: npm run test:e2e:webkit
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx playwright install --with-deps ${{ matrix.navegador }}
+
+      - run: npm run build
+
+      - run: ${{ matrix.comando }}
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-${{ matrix.navegador }}
+          path: test-results
+          retention-days: 7
