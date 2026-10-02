@@ -1,6 +1,12 @@
-# Equivalente a "npm run deploy", executado no GitHub.
-# Instala, testa, gera a build e publica o resultado na branch gh-pages,
-# que é a origem do site em https://presleyson.github.io/AgitarCanvas/
+# Publica a aplicação no GitHub Pages a cada alteração na branch main.
+#
+# Etapas: instalação, verificação de tipos, testes unitários, build e
+# publicação do diretório "build" na branch gh-pages, que é a origem do site
+# em https://presleyson.github.io/AgitarCanvas/
+#
+# Configuração do servidor (opcional): defina em Settings > Secrets and
+# variables > Actions > Variables as variáveis VITE_SUPABASE_URL e
+# VITE_SUPABASE_ANON_KEY. Sem elas, o site é publicado em modo local.
 name: Deploy
 
 on:
@@ -19,24 +25,30 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - run: npm ci
 
-      - run: npm test -- --watchAll=false
+      - run: npm run typecheck
 
-      - run: npm run build
+      - run: npm test
+
+      - name: Build
+        run: npx vite build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
 
       - name: Publica na branch gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npx gh-pages -d build \
+          npx gh-pages -d build -t \
             -m "Deploy ${GITHUB_SHA::7}" \
             -u "github-actions <github-actions@users.noreply.github.com>" \
             -r "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
