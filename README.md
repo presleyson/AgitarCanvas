@@ -62,7 +62,7 @@ O AGITAR Canvas está fundamentado na seguinte tese de doutorado, utilizada como
 | | |
 |---|---|
 | **Título** | Modelo de Gestão da Inovação Tecnológica para Pequenas e Médias Empresas de Tecnologia da Informação e Comunicação |
-| **Autor** | Presleyson Plínio de Lima |
+| **Autor** | Dr. Presleyson Plínio de Lima |
 | **Orientador** | Prof. Dr. Luiz Cláudio Gomes Maia |
 | **Instituição** | Universidade FUMEC, Faculdade de Ciências Empresariais |
 | **Programa** | Pós-Graduação Stricto Sensu em Tecnologia da Informação e Comunicação e Gestão do Conhecimento |
