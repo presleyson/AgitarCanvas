@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "Se você utilizar esta plataforma ou o modelo AGITAR Canvas em trabalhos acadêmicos, cite a tese que o originou."
+title: "AGITAR Canvas"
+type: software
+authors:
+  - family-names: "Lima"
+    given-names: "Presleyson Plínio de"
+repository-code: "https://github.com/presleyson/AgitarCanvas"
+url: "https://presleyson.github.io/AgitarCanvas/"
+preferred-citation:
+  type: thesis
+  title: "Modelo de gestão da inovação tecnológica para pequenas e médias empresas de tecnologia da informação e comunicação"
+  authors:
+    - family-names: "Lima"
+      given-names: "Presleyson Plínio de"
+  year: 2024
+  thesis-type: "Tese de doutorado"
+  institution:
+    name: "Universidade FUMEC"
+    city: "Belo Horizonte"
+    country: "BR"
