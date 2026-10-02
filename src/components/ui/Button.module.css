@@ -1,0 +1,146 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    border-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.sm {
+  height: 32px;
+  padding: 0 var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.md {
+  height: 40px;
+  padding: 0 var(--space-4);
+  font-size: var(--text-md);
+}
+
+.lg {
+  height: 48px;
+  padding: 0 var(--space-6);
+  font-size: var(--text-base);
+}
+
+.block {
+  width: 100%;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.primary {
+  background: var(--primary-600);
+  color: var(--white);
+  box-shadow: var(--shadow-xs);
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--primary-700);
+}
+
+.secondary {
+  background: var(--surface);
+  border-color: var(--border-strong);
+  color: var(--gray-800);
+}
+
+.secondary:hover:not(:disabled) {
+  background: var(--gray-50);
+  border-color: var(--gray-400);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--gray-700);
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.danger {
+  background: var(--danger-600);
+  color: var(--white);
+}
+
+.danger:hover:not(:disabled) {
+  background: var(--danger-700);
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--gray-600);
+  transition:
+    background-color var(--duration-fast) var(--ease),
+    color var(--duration-fast) var(--ease);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.iconButton:hover:not(:disabled) {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.iconButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.icon-sm {
+  width: 28px;
+  height: 28px;
+}
+
+.icon-md {
+  width: 36px;
+  height: 36px;
+}
+
+.iconDanger:hover:not(:disabled) {
+  background: var(--danger-100);
+  color: var(--danger-700);
+}
+
+/* Em telas de toque, os alvos têm no mínimo 40px. */
+@media (pointer: coarse) {
+  .sm {
+    height: 40px;
+  }
+
+  .icon-sm {
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon-md {
+    width: 42px;
+    height: 42px;
+  }
+}

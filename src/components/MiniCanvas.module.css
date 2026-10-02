@@ -1,0 +1,164 @@
+.canvas {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr 1fr 0.8fr;
+  grid-template-areas:
+    'parceiros tecnicos financeiros selecionadas geracao mercado'
+    'parceiros tecnicos financeiros selecionadas geracao problema'
+    'resultados resultados resultados planejamento planejamento planejamento';
+  gap: 3px;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+}
+
+.cell {
+  display: flex;
+  min-width: 0;
+  border: 0;
+  border-radius: 3px;
+  background: var(--gray-200);
+  color: var(--gray-600);
+  transition: background-color var(--duration-fast) var(--ease);
+}
+
+.filled[data-group='estrategia'] {
+  background: var(--group-estrategia);
+}
+
+.filled[data-group='contexto'] {
+  background: var(--group-contexto);
+}
+
+.filled[data-group='ideias'] {
+  background: var(--group-ideias);
+}
+
+.filled[data-group='recursos'] {
+  background: var(--group-recursos);
+}
+
+.parceiros {
+  grid-area: parceiros;
+}
+.tecnicos {
+  grid-area: tecnicos;
+}
+.financeiros {
+  grid-area: financeiros;
+}
+.selecionadas {
+  grid-area: selecionadas;
+}
+.geracao {
+  grid-area: geracao;
+}
+.mercado {
+  grid-area: mercado;
+}
+.problema {
+  grid-area: problema;
+}
+.resultados {
+  grid-area: resultados;
+}
+.planejamento {
+  grid-area: planejamento;
+}
+
+/* Versão detalhada: mapa de navegação com títulos e contagem. */
+.detailed {
+  gap: var(--space-1);
+  aspect-ratio: auto;
+  grid-template-rows: minmax(58px, auto) minmax(58px, auto) minmax(52px, auto);
+}
+
+.detailed .cell {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  color: var(--gray-700);
+  font-size: 0.625rem;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.detailed .cell[data-group='estrategia'] {
+  border-top: 3px solid var(--group-estrategia);
+}
+.detailed .cell[data-group='contexto'] {
+  border-top: 3px solid var(--group-contexto);
+}
+.detailed .cell[data-group='ideias'] {
+  border-top: 3px solid var(--group-ideias);
+}
+.detailed .cell[data-group='recursos'] {
+  border-top: 3px solid var(--group-recursos);
+}
+
+.detailed .filled[data-group='estrategia'] {
+  background: var(--group-estrategia-soft);
+}
+.detailed .filled[data-group='contexto'] {
+  background: var(--group-contexto-soft);
+}
+.detailed .filled[data-group='ideias'] {
+  background: var(--group-ideias-soft);
+}
+.detailed .filled[data-group='recursos'] {
+  background: var(--group-recursos-soft);
+}
+
+.detailed .active {
+  box-shadow: inset 0 0 0 2px var(--primary-500);
+}
+
+.step {
+  font-weight: 700;
+  color: var(--gray-500);
+}
+
+.name {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.count {
+  color: var(--gray-500);
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Em larguras pequenas os nomes não cabem nas colunas estreitas: ficam o
+ * número da etapa e a contagem. Os blocos da base, mais largos, mantêm o nome.
+ */
+@container (max-width: 560px) {
+  .detailed .cell {
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 4px 2px;
+    text-align: center;
+  }
+
+  .detailed .cell:not(.resultados):not(.planejamento) .name {
+    display: none;
+  }
+
+  .detailed .step {
+    font-size: 0.8125rem;
+    color: var(--gray-800);
+  }
+
+  .detailed .resultados,
+  .detailed .planejamento {
+    flex-direction: row;
+    gap: var(--space-2);
+  }
+}

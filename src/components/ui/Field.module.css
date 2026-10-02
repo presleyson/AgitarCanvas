@@ -1,0 +1,88 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.label {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.optional {
+  font-weight: 400;
+  color: var(--text-subtle);
+}
+
+.control {
+  width: 100%;
+  min-height: 40px;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  /* 16px evita o zoom automático do Safari no iPhone ao focar o campo. */
+  font-size: var(--text-base);
+  line-height: 1.4;
+  transition:
+    border-color var(--duration-fast) var(--ease),
+    box-shadow var(--duration-fast) var(--ease);
+}
+
+@media (min-width: 768px) {
+  .control {
+    font-size: var(--text-md);
+  }
+}
+
+.control::placeholder {
+  color: var(--gray-400);
+}
+
+.control:hover {
+  border-color: var(--gray-400);
+}
+
+.control:focus-visible {
+  border-color: var(--primary-500);
+  border-radius: var(--radius-md);
+}
+
+.control[aria-invalid='true'] {
+  border-color: var(--danger-600);
+}
+
+.control:disabled {
+  background: var(--surface-sunken);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}
+
+.textarea {
+  min-height: 88px;
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  padding-right: var(--space-8);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235d627a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-3) center;
+}
+
+.hint {
+  font-size: var(--text-xs);
+  color: var(--text-subtle);
+}
+
+.error {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--danger-700);
+}

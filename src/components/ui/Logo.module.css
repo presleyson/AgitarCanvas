@@ -1,0 +1,23 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--ink-900);
+}
+
+.logo[data-inverted] {
+  color: var(--white);
+}
+
+.word {
+  font-size: var(--text-base);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.light {
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  opacity: 0.75;
+}

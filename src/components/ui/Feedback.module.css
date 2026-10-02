@@ -1,0 +1,102 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 460px;
+  margin: 0 auto;
+  padding: var(--space-16) var(--space-6);
+  text-align: center;
+}
+
+.compact {
+  padding: var(--space-8) var(--space-4);
+}
+
+.emptyIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--primary-100);
+  color: var(--primary-600);
+}
+
+.emptyTitle {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+}
+
+.emptyText {
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.emptyAction {
+  margin-top: var(--space-2);
+}
+
+.skeleton {
+  display: block;
+  border-radius: var(--radius-sm);
+  background: linear-gradient(90deg, var(--gray-100) 0%, var(--gray-200) 50%, var(--gray-100) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.progress {
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background: var(--gray-200);
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary-500);
+  transition: width var(--duration) var(--ease);
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+}
+
+.bannerIcon {
+  display: inline-flex;
+  flex: none;
+}
+
+.bannerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.banner-info {
+  background: var(--primary-50);
+  color: var(--primary-700);
+}
+
+.banner-warning {
+  background: var(--warning-100);
+  color: var(--warning-700);
+}
+
+.banner-danger {
+  background: var(--danger-100);
+  color: var(--danger-700);
+}
